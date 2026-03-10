@@ -1,0 +1,5 @@
+task,keywords,assembly
+roof tear off,"tear off remove shingles",roof_tearoff
+install architectural shingles,"architectural shingles roof",arch_shingle_roof
+install ice and water shield,"ice guard ice water shield",ice_guard
+install drip edge,"drip edge roof edge",drip_edge

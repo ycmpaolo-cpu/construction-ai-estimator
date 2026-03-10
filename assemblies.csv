@@ -1,0 +1,6 @@
+assembly,material,quantity,unit
+arch_shingle_roof,Architectural Shingles,1,square
+arch_shingle_roof,Roofing Nails,0.5,box
+arch_shingle_roof,Synthetic Underlayment,1,square
+ice_guard,Ice and Water Shield,1,roll
+drip_edge,Drip Edge,10,ft
