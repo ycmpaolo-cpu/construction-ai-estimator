@@ -21,8 +21,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of your app's code into the container
 COPY . .
 
-# Expose the port Streamlit uses
-EXPOSE 8501
+# Expose the Cloud Run default port
+EXPOSE 8080
 
 # Command to run your Streamlit app
-CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
