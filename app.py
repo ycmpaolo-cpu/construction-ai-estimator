@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import requests
+import cv2
 from pricing_engine import MaterialIntelligence
 from blueprint_engine import BlueprintEngine
 
