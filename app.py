@@ -64,14 +64,18 @@ with tab1:
                 "https://buildcalculator.io/api/v1/search",
                 params={"q": scope, "lang": "en", "top": 3}
             )
-            data = response.json()
-            if "results" in data and len(data["results"]) > 0:
-                for item in data["results"]:
-                    name = item.get("name", "Unknown")
-                    unit_price = item.get("pricing", {}).get("total_per_unit", 0)
-                    st.write(f"- **{name}**: ${unit_price:,.2f} per {item.get('unit', 'unit')}")
-        except Exception:
-            pass
+            
+            if response.status_code == 403:
+                st.warning("⚠️ **API Limit Reached:** The BuildCalculator API has temporarily blocked requests from this server due to fair-use limits. (This is common on free shared hosting like Streamlit Cloud).")
+            else:
+                data = response.json()
+                if "results" in data and len(data["results"]) > 0:
+                    for item in data["results"]:
+                        name = item.get("name", "Unknown")
+                        unit_price = item.get("pricing", {}).get("total_per_unit", 0)
+                        st.write(f"- **{name}**: ${unit_price:,.2f} per {item.get('unit', 'unit')}")
+        except Exception as e:
+            st.error(f"Could not connect to Knowledge Library: {e}")
 
 # --- TAB 2: Blueprint Engine ---
 with tab2:
