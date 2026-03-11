@@ -114,7 +114,7 @@ with tab2:
                 total_cost = 0
                 
                 for item in materials:
-                    supplier, price = pricing_engine.get_best_price(item["material"])[:2]
+                    price, supplier = pricing_engine.get_best_price(item["material"])[:2]
                     
                     if price != float('inf'):
                         cost = price * item["quantity"]
