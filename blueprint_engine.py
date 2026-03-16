@@ -1,6 +1,6 @@
 import cv2
 import pytesseract
-from pdf2image import convert_from_path
+import fitz  # PyMuPDF
 import numpy as np
 import re
 import tempfile
@@ -13,7 +13,7 @@ class BlueprintEngine:
     def pdf_to_image(self, uploaded_file):
         """
         Converts an uploaded Streamlit PDF file stream into OpenCV images.
-        Uses a temporary file so pdf2image can read it from the OS.
+        Uses a temporary file so PyMuPDF can read it from the OS.
         """
         images = []
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_pdf:
@@ -21,11 +21,19 @@ class BlueprintEngine:
             temp_path = temp_pdf.name
             
         try:
-            pages = convert_from_path(temp_path)
-            for page in pages:
-                # Convert PIL image to OpenCV format
-                img_cv = cv2.cvtColor(np.array(page), cv2.COLOR_RGB2BGR)
+            doc = fitz.open(temp_path)
+            for page_num in range(len(doc)):
+                page = doc.load_page(page_num)
+                pix = page.get_pixmap()
+                
+                img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.h, pix.w, pix.n)
+                if pix.n >= 4:
+                    img_cv = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
+                else:
+                    img_cv = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                    
                 images.append(img_cv)
+            doc.close()
         finally:
             if os.path.exists(temp_path):
                 os.remove(temp_path)

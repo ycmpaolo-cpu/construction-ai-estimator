@@ -24,6 +24,7 @@ with tab1:
     sq = st.number_input("Quantity (Roof Squares)", value=20.0, min_value=1.0)
     
     if scope:
+        scope = scope.strip()
         st.header("1. Task Detection & Material List")
         matched = tasks[tasks['keywords'].str.contains(scope, case=False, na=False)]
         
